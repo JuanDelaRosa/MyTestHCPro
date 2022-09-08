@@ -1,4 +1,4 @@
-package com.jherrera.domain.usercases
+package com.jherrera.domain.use_cases
 
 import com.jherrera.domain.repositories.HousecallProRepository
 
