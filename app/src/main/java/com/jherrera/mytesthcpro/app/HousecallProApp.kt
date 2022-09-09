@@ -13,5 +13,5 @@ class HousecallProApp: Application() {
         get() = ServiceLocator.provideRepository(context)
 
     val getUsers: GetUsersUC
-        get() =GetUsersUC(repository)
+        get() = GetUsersUC(repository)
 }

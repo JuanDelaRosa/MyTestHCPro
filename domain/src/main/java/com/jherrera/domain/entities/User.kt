@@ -9,4 +9,11 @@ data class User(
     val phone: String,
     val username: String,
     val website: String
-)
+) {
+    fun getAddress() : String{
+        return "${address.suite} ${address.street}\n${address.city}, ${address.zipcode}"
+    }
+    fun getPhoneNumber() : String{
+        return phone.replace("x",";")
+    }
+}
