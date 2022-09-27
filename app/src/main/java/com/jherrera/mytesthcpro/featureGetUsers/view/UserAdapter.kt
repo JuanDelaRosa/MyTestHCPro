@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jherrera.domain.entities.User
 import com.jherrera.mytesthcpro.databinding.UserItemBinding
+import com.jherrera.mytesthcpro.featureGetUsers.viewmodel.UsersListViewModel
 
-class UserAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserAdapter(private val viewModel: UsersListViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val users: MutableList<User> = mutableListOf()
 
     fun setData(list: List<User>){
@@ -15,7 +16,7 @@ class UserAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return UserViewHolder(UserItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return UserViewHolder(UserItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), viewModel)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

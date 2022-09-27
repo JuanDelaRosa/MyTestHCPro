@@ -17,7 +17,7 @@ class HousecallProRemoteDataSourceImpl(private val service: HousecallProService,
                     return@withContext Result.Success(mapper.toUsers(response.body()))
                 }
                 else
-                    return@withContext Result.Error(Exception(Exceptions.NoInternet))
+                    return@withContext Result.Error(Exception(Exceptions.NoUsers))
             }catch (e:Exception){
                 return@withContext Result.Error(Exception(Exceptions.NoInternet))
             }
@@ -32,7 +32,7 @@ class HousecallProRemoteDataSourceImpl(private val service: HousecallProService,
                     return@withContext Result.Success(mapper.countPosts(response.body()))
                 }
                 else
-                    return@withContext Result.Error(Exception(Exceptions.NoInternet))
+                    return@withContext Result.Error(Exception(Exceptions.IdError))
             }catch (e:Exception){
                 return@withContext Result.Error(Exception(Exceptions.NoInternet))
             }
