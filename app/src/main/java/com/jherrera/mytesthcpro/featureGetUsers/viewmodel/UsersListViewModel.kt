@@ -3,11 +3,10 @@ package com.jherrera.mytesthcpro.featureGetUsers.viewmodel
 import androidx.lifecycle.*
 import com.jherrera.domain.common.Result
 import com.jherrera.domain.entities.User
-import com.jherrera.domain.use_cases.GetPostsUC
-import com.jherrera.domain.use_cases.GetUsersUC
+import com.jherrera.mytesthcpro.featureGetUsers.interactor.GetUsersInteractor
 import kotlinx.coroutines.launch
 
-class UsersListViewModel(private val useCase: GetUsersUC, private val postUC: GetPostsUC): ViewModel() {
+class UsersListViewModel(private val interactor: GetUsersInteractor): ViewModel() {
 
     private val _list = MutableLiveData<List<User>>()
     val list = _list
@@ -24,7 +23,7 @@ class UsersListViewModel(private val useCase: GetUsersUC, private val postUC: Ge
     fun getUsers() {
         viewModelScope.launch {
             _dataLoading.postValue(true)
-            when(val result = useCase.invoke()){
+            when(val result = interactor.getUsers.invoke()){
                 is Result.Success -> {
                     _dataLoading.postValue(false)
                     tempList = result.data
@@ -43,7 +42,7 @@ class UsersListViewModel(private val useCase: GetUsersUC, private val postUC: Ge
 
     fun getPosts(id: Int) {
         viewModelScope.launch {
-            when(val result = postUC.invoke(id)){
+            when(val result = interactor.getPosts.invoke(id)){
                 is Result.Success -> {
                     tempList.single { user -> user.id == id }.postCount = result.data
                 }
@@ -55,9 +54,9 @@ class UsersListViewModel(private val useCase: GetUsersUC, private val postUC: Ge
     }
 
 
-    class UsersListViewModelFactory(private val usersUC: GetUsersUC, private val postUC: GetPostsUC): ViewModelProvider.NewInstanceFactory() {
+    class UsersListViewModelFactory(private val interactor: GetUsersInteractor): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return UsersListViewModel(usersUC, postUC) as T
+            return UsersListViewModel(interactor) as T
         }
     }
 }

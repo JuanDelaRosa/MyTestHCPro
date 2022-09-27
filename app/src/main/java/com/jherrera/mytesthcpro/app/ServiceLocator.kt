@@ -1,6 +1,5 @@
 package com.jherrera.mytesthcpro.app
 
-import android.content.Context
 import com.jherrera.data.api.NetworkModule
 import com.jherrera.data.mappers.HousecallProMapper
 import com.jherrera.data.repositories.HousecallProRemoteDataSourceImpl
@@ -11,9 +10,9 @@ object ServiceLocator {
     @Volatile
     var repository: HousecallProRepository? = null
 
-    fun provideRepository(context: Context): HousecallProRepository {
+    fun provideRepository(): HousecallProRepository {
         synchronized(this) {
-            return repository ?: createRepository(context)
+            return repository ?: createRepository()
         }
     }
 
@@ -21,7 +20,7 @@ object ServiceLocator {
         NetworkModule()
     }
 
-    private fun createRepository(context: Context): HousecallProRepository {
+    private fun createRepository(): HousecallProRepository {
         val newRepository = HousecallProRepositoryImpl(
             HousecallProRemoteDataSourceImpl(
                 networkModule.createHousecallProAPI("https://jsonplaceholder.typicode.com/"),

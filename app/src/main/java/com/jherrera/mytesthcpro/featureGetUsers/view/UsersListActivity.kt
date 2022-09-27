@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jherrera.mytesthcpro.app.HousecallProApp
 import com.jherrera.mytesthcpro.app.LayoutUtils
 import com.jherrera.mytesthcpro.databinding.ActivityUsersListBinding
+import com.jherrera.mytesthcpro.featureGetUsers.interactor.GetUsersInteractor
 import com.jherrera.mytesthcpro.featureGetUsers.viewmodel.UsersListViewModel
 
 class UsersListActivity : AppCompatActivity() {
@@ -14,7 +15,7 @@ class UsersListActivity : AppCompatActivity() {
         ActivityUsersListBinding.inflate(layoutInflater)
     }
     private val viewModel: UsersListViewModel by lazy {
-        UsersListViewModel.UsersListViewModelFactory((application as HousecallProApp).getUsers, (application as HousecallProApp).getPosts).create(UsersListViewModel::class.java)
+        UsersListViewModel.UsersListViewModelFactory(GetUsersInteractor((application as HousecallProApp).repository)).create(UsersListViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
