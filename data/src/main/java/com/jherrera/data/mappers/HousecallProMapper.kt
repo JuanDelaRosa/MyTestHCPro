@@ -1,9 +1,6 @@
 package com.jherrera.data.mappers
 
-import com.jherrera.data.api.responses.AddressResponse
-import com.jherrera.data.api.responses.CompanyResponse
-import com.jherrera.data.api.responses.GeoResponse
-import com.jherrera.data.api.responses.UserResponse
+import com.jherrera.data.api.responses.*
 import com.jherrera.domain.entities.Address
 import com.jherrera.domain.entities.Company
 import com.jherrera.domain.entities.Geo
@@ -17,6 +14,10 @@ class HousecallProMapper {
                 getUser(user)
             }
         } ?: emptyList()
+    }
+
+    fun countPosts(response: List<PostResponse>?): Int {
+        return response?.size ?: 0
     }
 
     private fun getUser(user: UserResponse): User {

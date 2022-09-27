@@ -23,4 +23,19 @@ class HousecallProRemoteDataSourceImpl(private val service: HousecallProService,
             }
         }
     }
+
+    override suspend fun getPosts(id: Int): Result<Int> {
+        return withContext(Dispatchers.IO){
+            try{
+                val response = service.GetPosts(id)
+                if(response.isSuccessful){
+                    return@withContext Result.Success(mapper.countPosts(response.body()))
+                }
+                else
+                    return@withContext Result.Error(Exception(Exceptions.NoInternet))
+            }catch (e:Exception){
+                return@withContext Result.Error(Exception(Exceptions.NoInternet))
+            }
+        }
+    }
 }

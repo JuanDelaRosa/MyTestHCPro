@@ -2,7 +2,6 @@ package com.jherrera.mytesthcpro.featureGetUsers.view
 
 import android.content.Intent
 import android.net.Uri
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.jherrera.domain.entities.User
 import com.jherrera.mytesthcpro.databinding.UserItemBinding
@@ -16,6 +15,7 @@ class UserViewHolder(private val binding: UserItemBinding): RecyclerView.ViewHol
         binding.name.text = user.name
         binding.website.text = user.website
         binding.address.text = user.getAddress()
+        binding.posts.text = user.postCount.toString()
 
         binding.phone.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)

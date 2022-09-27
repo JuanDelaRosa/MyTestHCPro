@@ -10,4 +10,8 @@ class HousecallProRepositoryImpl(
     override suspend fun GetUsers(): Result<List<User>> {
         return remoteDataSource.getUsers()
     }
+
+    override suspend fun GetPosts(id: Int): Result<Int> {
+        return remoteDataSource.getPosts(id)
+    }
 }

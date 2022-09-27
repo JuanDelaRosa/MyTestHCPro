@@ -5,4 +5,5 @@ import com.jherrera.domain.entities.User
 
 interface HousecallProRepository {
     suspend fun GetUsers() : Result<List<User>>
+    suspend fun GetPosts(id: Int) : Result<Int>
 }

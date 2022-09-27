@@ -3,10 +3,11 @@ package com.jherrera.mytesthcpro.featureGetUsers.viewmodel
 import androidx.lifecycle.*
 import com.jherrera.domain.common.Result
 import com.jherrera.domain.entities.User
+import com.jherrera.domain.use_cases.GetPostsUC
 import com.jherrera.domain.use_cases.GetUsersUC
 import kotlinx.coroutines.launch
 
-class UsersListViewModel(private val useCase: GetUsersUC): ViewModel() {
+class UsersListViewModel(private val useCase: GetUsersUC, private val postUC: GetPostsUC): ViewModel() {
 
     private val _list = MutableLiveData<List<User>>()
     val list = _list
@@ -15,7 +16,10 @@ class UsersListViewModel(private val useCase: GetUsersUC): ViewModel() {
     val error: LiveData<String> = _error
 
     private val _dataLoading = MutableLiveData(true)
+
     val dataLoading: LiveData<Boolean> = _dataLoading
+
+    private lateinit var tempList : List<User>
 
     fun getUsers() {
         viewModelScope.launch {
@@ -23,7 +27,11 @@ class UsersListViewModel(private val useCase: GetUsersUC): ViewModel() {
             when(val result = useCase.invoke()){
                 is Result.Success -> {
                     _dataLoading.postValue(false)
-                    _list.postValue(result.data)
+                    tempList = result.data
+                    tempList.forEach {
+                        getPosts(it.id)
+                    }
+                    _list.postValue(tempList)
                 }
                 is Result.Error -> {
                     _dataLoading.postValue(false)
@@ -33,9 +41,23 @@ class UsersListViewModel(private val useCase: GetUsersUC): ViewModel() {
         }
     }
 
-    class UsersListViewModelFactory(private val useCase: GetUsersUC): ViewModelProvider.NewInstanceFactory() {
+    fun getPosts(id: Int) {
+        viewModelScope.launch {
+            when(val result = postUC.invoke(id)){
+                is Result.Success -> {
+                    tempList.single { user -> user.id == id }.postCount = result.data
+                }
+                is Result.Error -> {
+                    _error.postValue(result.exception.message)
+                }
+            }
+        }
+    }
+
+
+    class UsersListViewModelFactory(private val usersUC: GetUsersUC, private val postUC: GetPostsUC): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return UsersListViewModel(useCase) as T
+            return UsersListViewModel(usersUC, postUC) as T
         }
     }
 }

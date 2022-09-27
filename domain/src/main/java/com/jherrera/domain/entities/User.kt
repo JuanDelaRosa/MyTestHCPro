@@ -8,7 +8,8 @@ data class User(
     val name: String,
     val phone: String,
     val username: String,
-    val website: String
+    val website: String,
+    var postCount: Int = 0
 ) {
     fun getAddress() : String{
         return "${address.suite} ${address.street}\n${address.city}, ${address.zipcode}"

@@ -1,7 +1,5 @@
 package com.jherrera.mytesthcpro.featureGetUsers.view
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +14,7 @@ class UsersListActivity : AppCompatActivity() {
         ActivityUsersListBinding.inflate(layoutInflater)
     }
     private val viewModel: UsersListViewModel by lazy {
-        UsersListViewModel.UsersListViewModelFactory((application as HousecallProApp).getUsers).create(UsersListViewModel::class.java)
+        UsersListViewModel.UsersListViewModelFactory((application as HousecallProApp).getUsers, (application as HousecallProApp).getPosts).create(UsersListViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
